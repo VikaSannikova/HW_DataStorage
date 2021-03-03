@@ -19,7 +19,7 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/update_shared_preference_button"
+        android:id="@+id/shared_preference_update_button"
         android:layout_width="103dp"
         android:layout_height="69dp"
         android:text="UPDATE"

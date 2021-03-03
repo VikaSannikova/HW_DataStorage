@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -38,9 +39,6 @@ public class MainActivity extends AppCompatActivity{
         Context context = this;
         sharedPreferenceView = (SharedPreferenceView)findViewById(R.id.shared_preference_view);
 
-        //editText.setText(sharedPreferenceView.text);
-        //editText = (EditText)findViewById(R.id.editText);
-        //editText.setText(sharedPreferenceView.text);
 
         cursor = this.getContentResolver().query(uri, null, null, null, null);
         ContentObserver contentObserver = new ContentObserver(new Handler(getMainLooper())) {
@@ -60,35 +58,12 @@ public class MainActivity extends AppCompatActivity{
             public void onChange(boolean selfChange, @Nullable Uri uri) {
                 Log.d("___", "DATA CHANGED BY URI");
                 super.onChange(selfChange, uri);
-                //TODO мб что-то не то
                 entries.clear();
                 getDataFromContentProvider();
                 fileRV.setAdapter(fileAdapter);
             }
         };
         getContentResolver().registerContentObserver(uri,true, contentObserver);
-//        getContentResolver().registerContentObserver(new ContentObserver(new Handler()) {
-//            @Override
-//            public boolean deliverSelfNotifications() {
-//                Log.d("___", "DATA CHANGED NOTIF");
-//                return super.deliverSelfNotifications();
-//            }
-//
-//            @Override
-//            public void onChange(boolean selfChange) {
-//                Log.d("___", "DATA CHANGED");
-//                // This cursor's Uri has been notified of a change
-//                // Call cursor.requery() or run managedQuery() again
-//                super.onChange(selfChange);
-//            }
-//
-//            @Override
-//            public void onChange(boolean selfChange, @Nullable Uri uri) {
-//                Log.d("___", "DATA CHANGED BY URI");
-//                super.onChange(selfChange, uri);
-//            }
-//        });
-
 
         entries = new ArrayList<>();
         entries.clear();
@@ -116,9 +91,6 @@ public class MainActivity extends AppCompatActivity{
             contentValues.put("entry_date", entry.getDate());
             Uri update_uri = Uri.parse("content://" + AUTHORITY + "/" + DIARY_ENTRY_TABLE + "/"+ entry.getId());
             this.getContentResolver().update(update_uri, contentValues, null);
-            //entries.clear();
-            //getDataFromContentProvider();
-            //fileRV.setAdapter(fileAdapter);
         }
     }
 
